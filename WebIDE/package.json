@@ -1,0 +1,15 @@
+{
+  "name": "webide",
+  "version": "1.0.0",
+  "description": "This application is intended to be a C/C++ and Java web-based IDE. Particularly, this may be used for educational use (UT EE312).",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Michael Lawrence",
+  "license": "ISC",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security"
+  }
+}
