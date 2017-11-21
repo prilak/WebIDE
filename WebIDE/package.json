@@ -9,7 +9,12 @@
   "author": "Michael Lawrence",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
     "child_process": "^1.0.2",
-    "fs": "0.0.1-security"
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "fs": "0.0.1-security",
+    "mysql": "^2.15.0"
   }
 }
