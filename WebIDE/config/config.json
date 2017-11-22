@@ -1,0 +1,45 @@
+{
+ 
+    "development": {
+ 
+        "username": "root",
+ 
+        "password": null,
+ 
+        "database": "sequelize_passport",
+ 
+        "host": "0.0.0.0",
+ 
+        "dialect": "mysql"
+ 
+    },
+ 
+    "test": {
+ 
+        "username": "",
+ 
+        "password": null,
+ 
+        "database": "",
+ 
+        "host": "",
+ 
+        "dialect": "mysql"
+ 
+    },
+ 
+    "production": {
+ 
+        "username": "",
+ 
+        "password": null,
+ 
+        "database": "",
+ 
+        "host": "webide-prilak.c9users.io",
+ 
+        "dialect": "mysql"
+ 
+    }
+ 
+}
