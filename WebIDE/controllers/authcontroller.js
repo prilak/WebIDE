@@ -27,3 +27,7 @@ exports.dashboard = function(req, res) {
     res.render('dashboard');
  
 }
+
+exports.home = function(req, res) {
+    res.render('home');
+}

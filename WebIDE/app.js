@@ -8,8 +8,13 @@ var express = require("express");
 var session = require('express-session');
 var env = require('dotenv').load();
 var exphbs = require('express-handlebars');
+var upload = require('express-fileupload');
 var app = express();
-//app.set("view engine", "ejs");
+
+// for file uploads
+app.use(upload());
+
+//var http = require('http').Server(app).listen(80);
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -20,13 +25,15 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
 //For Handlebars
+// app.set('views', './views');
+// app.engine('hbs', exphbs({
+//     extname: '.hbs'
+// }));
+// app.set('view engine', '.hbs');
+
+// For EJS
 app.set('views', './views');
-app.engine('hbs', exphbs({
-    extname: '.hbs'
-}));
-app.set('view engine', '.hbs');
-
-
+app.set("view engine", "ejs");
 
 //------------------------------------------
 /* Some commands for using mysql with cloud 9
@@ -98,81 +105,28 @@ models.sequelize.sync().then(function() {
 //   if (err) throw err;
 //   console.log('Saved!');
 // }); 
-
+app.get('/upload', function(req, res){
+    res.render('upload');
+})
+app.post('/upload', function(req, res){
+  if(req.files){
+        var file = req.files.filename;
+        var filename = req.files.filename.name;
+        file.mv("./upload/" + filename, function(err){
+            if(err){
+                console.log(err);
+                res.send("error occured");
+            } else {
+                res.send("Successfully uploaded!");
+            }
+            
+        });
+  }
+});
 //Routes
 var authRoute = require('./routes/auth.js')(app, passport);
 
 
-
-// app.get("/", function(req, res){
-//     res.render("home");
-// });
-// app.get("/register", function(req, res) {
-//     res.render("register"); 
-// });
-// app.post("/register", function(req, res) {
-//     //console.log(req.body);
-//     var username = req.body.username;
-//     var password = req.body.password;
-//     var saltRounds = 10;
-//     bcrypt.genSalt(saltRounds, function(err, salt) {
-//         if(err){
-//             console.log(err);
-//         }
-//         bcrypt.hash(password, salt, function(err, hash) {
-//             if(err){
-//                 console.log(err);
-//             }
-//             var sql = "INSERT INTO User (LastName, FirstName, Username, Password) VALUES (NULL, NULL, " + "\'" + username + "\'" + ", " + "\'" + hash + "\'" + ")";
-//             con.query(sql, function(err, result){
-//                 if(err){
-//                     console.log(err);
-//                 }
-//             });
-            
-//         // Store hash in your password DB.
-//         });
-        
-//     });
-//     passport.authenticate("local")(req, res, function(){
-//         res.redirect("/");
-//     });
-//     res.redirect("/");
-// });
-// app.get("/login", function(req, res) {
-//     res.render("login");
-// });
-// app.get("/secret", isLoggedIn, function(req, res) {
-//     res.render("login"); 
-// });
-// app.post("/login", passport.authenticate("local", {
-//     successRedirect: "/secret",
-//     failureRedirect: "/login"
-//     }), function(req, res){
-//     con.query("SELECT Password FROM User WHERE Username = " + "\'" + req.body.username + "\'", function (err, result, fields) {
-//         if (err) throw err;
-//         //console.log(result + fields);
-//         // JSON.parse(result, function(err, hash){
-//         //     if(err)throw err;
-//         //     res.send(hash);    
-//         // });
-//         var hash = result[0].Password;
-//         console.log(hash);
-//         bcrypt.compare(req.body.password, hash, function(err, res) {
-//             //res == true
-//             if(err) throw err;
-//             console.log(res);
-//         });
-//         res.send(result);
-//     });
-    
-// });
-
-// app.get("/logout", function(req, res) {
-//     req.logout();
-//     res.redirect("/");
-// });
-console.log(process.env.IP + "   " + process.env.PORT);
 app.listen(process.env.PORT, process.env.IP, function(){
 	console.log("server is running");
 });
